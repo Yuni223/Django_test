@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Post
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 # Create your views here.
 
 class PostList(ListView):
@@ -8,6 +8,7 @@ class PostList(ListView):
     ordering = '-pk'    # 최신 글을 맨 위로
     # template_name = 'blog/index.html'
     # index.html 을 지정못해서 template_name 을 통해서 강제로 주소 지정
+    # return render와 같은 의미
 
 # def index(request):
 #     posts = Post.objects.all().order_by('-pk')    # 최신 글을 맨 위로
@@ -19,14 +20,16 @@ class PostList(ListView):
 #         }
 #     )
 
+class PostDetail(DetailView):
+    model = Post
 
-def single_post_page(request, pk):
-    post = Post.objects.get(pk=pk)
-    return render(
-        request,
-        'blog/single_post_page.html',
-        {
-            'post': post,
-        }
-    )
-
+# def single_post_page(request, pk):
+#     post = Post.objects.get(pk=pk)
+#     return render(
+#         request,
+#         'blog/single_post_page.html',
+#         {
+#             'post': post,
+#         }
+#     )
+#

@@ -5,17 +5,18 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Blog</title>
+    <title>{{ post.title }} - Blog</title>
 </head>
 <body>
-    <h1>Blog</h1>
+    <nav>
+        <a href="/blog">Blog</a>
+    </nav>
 
-{% for p in post_list %}
+    <h2>{{ post.title }}</h2>
+    <h4>{{ post.created_at }}</h4>
+    <p>{{ post.content }}</p>
+
     <hr/>
-    <h2><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>
-    <h4>{{ p.created_at }}</h4>
-    <h4>{{ p.created_at }}</h4>
-    <p>{{ p.content }}</p>
-{% endfor %}
+    <h3>댓글이 들어옴</h3>
 </body>
 </html>
