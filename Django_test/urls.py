@@ -17,8 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.conf import settings
+from django.conf.urls.static import static
+# conf : django 프로젝트의 기본 폴더, 우리는 Django_test임
+
 urlpatterns = [
     path('blog', include('blog.urls')),
     path('admin/', admin.site.urls),
     path('', include('single_pages.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+# +=을 하는 이유는 사진을 여러장 들고올 때 때문에 누적시키기 위해서
+
