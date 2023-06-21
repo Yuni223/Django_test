@@ -118,7 +118,11 @@
 
                     <!-- Blog Post -->
                     <div class="card mb-4">
-                        <img class="card-img-top" src="{{ p.head_image.url }}" alt="이미지 파일">
+                        {% if p.head_image %}
+                            <img class="card-img-top" src="{{ p.head_image.url }}" alt="{{ p }} head image">
+                        {% else %}
+                            <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/300" alt="random_image">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ p.title }}</h5>
                             <p class="card-text">{{ p.content }}</p>
