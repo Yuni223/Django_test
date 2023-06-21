@@ -12,6 +12,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'blog/bootstrap/bootstrap.min.css' %}" rel="stylesheet" media="screen" />
         <link href="{% static 'blog/css/blog-post.css' %}" rel="stylesheet" media="screen"/>
+        <script src="https://kit.fontawesome.com/d440af0ce0.js" crossorigin="anonymous"></script> <!--fontawesome 아이콘 이미지-->
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -56,6 +57,20 @@
                         <section class="mb-5">
                             <hr>
                             <p>{{ post.content }}</p>
+                            {% if post.file_upload %}
+                                <a href="{{ post.file_upload.url }}" class="btn btn-outline-dark" role="button" download="">Download
+                                    {% if post.get_file_ext == 'csv' %}
+                                        <i class="fas fa-file-csv fa-lg"></i>
+                                    {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %} <!-- 엑셀의 요즘 확장자와 옛날 확장자 -->
+                                        <i class="fas fa-file-excel fa-lg"></i>
+                                    {% elif post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %} <!-- 워드의 요즘 확장자와 옛날 확장자 -->
+                                        <i class="fas fa-file-word fa-lg"></i>
+                                    {% else %}
+                                        <i class="far fa-file fa-lg"></i>
+                                    {% endif %}
+                                    {{ post.get_file_name }}
+                                </a>
+                            {% endif %}
                             <hr>
                         </section>
                     </article>
