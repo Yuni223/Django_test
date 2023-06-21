@@ -5,8 +5,9 @@ import os
 
 # new
 class Post(models.Model):
-    title = models.CharField(max_length=30)
-    content = models.TextField()
+    title = models.CharField(max_length=30) # Post 제목
+    hook_text = models.CharField(max_length=100, blank=True) # 요약본
+    content = models.TextField() # Post 내용
 
     head_image = models.ImageField(upload_to='blog/images/%y/%m/%d/', blank=True)
     file_upload = models.FileField(upload_to='blog/files/%y/%m/%d/', blank=True)
