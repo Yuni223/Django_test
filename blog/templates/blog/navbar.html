@@ -1,0 +1,116 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Django</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./index.html"
+                        >Home<span class="sr-only">(current)</span></a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./blog_list.html">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./about_me.html">About Me</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdown"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+                        Disabled
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <!-- 왼쪽(left) 여백(margin)을 최대한 확보 -->
+                <li class="nav-item">
+                    <!-- trigger modal -->
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal"
+                        >log in</a
+                    >
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Modal - login 페이지 -->
+<div
+    class="modal fade"
+    id="loginModal"
+    tabindex="-1"
+    aria-labelledby="loginModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginModalLabel">
+                    <i class="fa-solid fa-right-to-bracket" style="color: #a9c8fe;"></i>
+                    &nbsp Log in
+                </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-outline-primary btn-block btn-sm">
+                            <i class="fa-brands fa-square-google-plus" style="color: #ee2f2f;"></i>
+                            Log in with Google
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-block btn-sm">
+                            <i class="fa-regular fa-envelope" style="color: #48026e;"></i>
+                            Log in with E-mail
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-outline-primary btn-block btn-sm">
+                            <i class="fa-regular fa-envelope" style="color: #48026e;"></i>
+                            Sign Up with E-mail
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
