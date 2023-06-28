@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import os
 
 # Create your models here.
@@ -14,9 +15,11 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # 작성자는 추후 작성예정
-
+    
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     def __str__(self):  # 페이지 생성시 페이지 번호 매기는 함수
-        return f'[{self.pk}]{self.title}'
+        return f'[{self.pk}]{self.title}::{self.author}'
 
     def get_absolute_url(self): # 상세페이지 접속 시 번호를 찾아주는 함수
         return f'/blog/{self.pk}/'
