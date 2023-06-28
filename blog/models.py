@@ -16,7 +16,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # 작성자는 추후 작성예정
     
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     
     def __str__(self):  # 페이지 생성시 페이지 번호 매기는 함수
         return f'[{self.pk}]{self.title}::{self.author}'
