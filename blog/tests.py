@@ -11,21 +11,21 @@ class TestView(TestCase):
         self.user_trump = User.objects.create_user(username='trump', password='somepasseord')
         self.user_obama = User.objects.create_user(username='obama', password='somepassword')
         
-        self.categories_programming = Category.objects.create(name='programming', slug='programming')
-        self.categories_music = Category.objects.create(name='music', slug='music')
+        self.category_programming = Category.objects.create(name='programming', slug='programming')
+        self.category_music = Category.objects.create(name='music', slug='music')
         
         # post 생성
         self.post_001 = Post.objects.create(
             title='첫 번째 포스트 입니다.',
             content='1등이 전부인 드러운 세상',
-            category=self.categories_programming,
+            category=self.category_programming,
             author=self.user_trump
         )
         
         self.post_002 = Post.objects.create(
             title='두 번째 포스트 입니다.',
             content='1등이 전부는 아니잖아요?',
-            category=self.categories_music,
+            category=self.category_music,
             author=self.user_obama
         )
         
@@ -36,11 +36,30 @@ class TestView(TestCase):
         )
         
         
+    def test_category_page(self):
+        response = self.client.get(self.category_programming.get_absolute_url())
+        
+        self.assertEquals(response.status_code, 200)
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        self.navbar_test(soup)
+        self.category_card_test(soup)
+        
+        # self.assertIn(self.category_programming.name, soup.h1.text)
+        
+        main_area = soup.find('div', id='main-area')
+        self.assertIn(self.category_programming.name, main_area.text)
+        self.assertIn(self.post_001.title, main_area.text)
+        self.assertNotIn(self.post_002.title, main_area.text)
+        self.assertNotIn(self.post_003.title, main_area.text)
+        
+        
     def category_card_test(self, soup):
         categories_card = soup.find('div', id='categories-card')
         self.assertIn('Categories', categories_card.text)
-        self.assertIn(f'{self.categories_programming.name} ({self.categories_programming.post_set.count()})', categories_card.text)
-        self.assertIn(f'{self.categories_music.name} ({self.categories_music.post_set.count()})', categories_card.text)
+        self.assertIn(f'{self.category_programming.name} ({self.category_programming.post_set.count()})', categories_card.text)
+        self.assertIn(f'{self.category_music.name} ({self.category_music.post_set.count()})', categories_card.text)
         self.assertIn(f'미분류 (1)', categories_card.text)
     
     
@@ -140,7 +159,7 @@ class TestView(TestCase):
         main_area = soup.find('div', id='main-area')
         post_area = main_area.find('div', id='post-area')
         self.assertIn(self.post_001.title, post_area.text)
-        self.assertIn(self.categories_programming.name, post_area.text)
+        self.assertIn(self.category_programming.name, post_area.text)
         
         # 2.5 첫 번째 포스트의 작성자(author)가 포스트 영역(post-area)에 있다.
         self.assertIn(self.user_trump.username.upper(), post_area.text)
