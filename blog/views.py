@@ -1,7 +1,23 @@
 from django.shortcuts import render
-from .models import Post, Category
+from .models import Post, Category, Tag
 from django.views.generic import ListView, DetailView
+
 # Create your views here.
+
+def tag_page(request, slug):
+    tag = Tag.objects.get(slug=slug)
+    post_list = tag.post_set.all()
+    
+    return render(    # render : html  형식으로 바꾸어줌
+        request,
+        'blog/post_list.html',
+        {
+            'post_list' : post_list,
+            'tag' : tag,
+            'categories' : Category.objects.all(),
+            'no_category_post_count' : Post.objects.filter(category=None).count(),
+        }
+    )
 
 def category_page(request, slug):
     if slug == 'no_category':
@@ -10,8 +26,8 @@ def category_page(request, slug):
     else:
         category = Category.objects.get(slug=slug)
         post_list = Post.objects.filter(category=category)
-    
-    
+
+
     return render(
         request,
         'blog/post_list.html',
@@ -26,7 +42,7 @@ def category_page(request, slug):
 class PostList(ListView):
     model = Post
     ordering = '-pk'    # 최신 글을 맨 위로
-    
+
     def get_context_data(self, **keargs):
         context = super(PostList, self).get_context_data()
         context['categories'] = Category.objects.all()
@@ -48,7 +64,7 @@ class PostList(ListView):
 
 class PostDetail(DetailView):
     model = Post
-    
+
     def get_context_data(self, **keargs):
         context = super(PostDetail, self).get_context_data()
         context['categories'] = Category.objects.all()
