@@ -53,6 +53,55 @@ class TestView(TestCase):
         )
 
 
+    def test_update_post(self):
+        update_post_url = f'/blog/update_post/{self.post_003.pk}/'
+
+        response = self.client.get(update_post_url)
+        self.assertNotEquals(response.status_code, 200) # 로그인하지 않은 상태
+
+        # 로그인이 되어있으나 작성자가 아닌 경우
+        self.assertNotEquals(self.post_003.author, self.user_trump)
+        # post_003은 obama가 작성함
+        self.client.login(
+            username=self.user_trump.username,
+            password='somepassword',
+        )
+        response = self.client.get(update_post_url)
+        self.assertEquals(response.status_code, 403)
+
+        # 작성자가 접속하는 경우
+        self.client.login(
+            username=self.post_003.author.username,
+            password='somepassword',
+        )
+        response = self.client.get(update_post_url)
+        self.assertEquals(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # 정상적 접속됬다면 내용 확인
+        self.assertIn('Edit Post - Blog', soup.title.text)
+        main_area = soup.find('div', id='main-area')
+        self.assertIn('Edit Post', main_area.text)
+
+        # 포스트 수정
+        response = self.client.post(
+            update_post_url,
+            {
+                'title':'세번째 포스트를 수정했습니다.',
+                'content':'안녕하세요 포스트가 수정되었습니다.',
+                'category':self.category_music.pk
+            },
+            follow = True
+        )
+
+        # 수정이 됐는지 확인
+        soup = BeautifulSoup(response.content, 'html.parser')
+        main_area = soup.find('div', id='main=area')
+        self.assertIn('세번째 포스트를 수정했습니다.', main_area.text)
+        self.assertIn('안녕하세요 포스트가 수정되었습니다.', main_area.text)
+        self.assertIn(self.category_music.name, main_area.text)
+
+
     def test_create_post(self):
         response = self.client.get('/blog/create_post/')
         self.assertNotEquals(response.status_code, 200)
