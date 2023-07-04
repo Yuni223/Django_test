@@ -8,8 +8,11 @@ from django.contrib.auth.models import User
 class TestView(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user_trump = User.objects.create_user(username='trump', password='somepasseord')
+        self.user_trump = User.objects.create_user(username='trump', password='somepassword')
         self.user_obama = User.objects.create_user(username='obama', password='somepassword')
+
+        self.user_obama.is_staff = True
+        self.user_obama.save()
 
         self.category_programming = Category.objects.create(name='programming', slug='programming')
         self.category_music = Category.objects.create(name='music', slug='music')
@@ -41,6 +44,39 @@ class TestView(TestCase):
         )
         self.post_003.tags.add(self.tag_python_kor)
         self.post_003.tags.add(self.tag_python)
+
+        self.post_004 = Post.objects.create(
+            title="Post Form 만들기",
+            content="Post Form 페이지를 만듭시다.",
+            category=self.category_music,
+            author=self.user_obama
+        )
+
+
+    def test_create_post(self):
+        response = self.client.get('/blog/create_post/')
+        self.assertNotEquals(response.status_code, 200)
+
+        self.client.login(username='trump', password='somepassword')
+        response = self.client.get('/blog/create_post/') # obama만 허용해줬기 때문에 접속이 되면 안됨
+        self.assertNotEquals(response.status_code, 200)
+
+        self.client.login(username='obama', password='somepassword')
+        response = self.client.get('/blog/create_post/') # obama는 허용했으니 정상적이라면 접속되야함
+        self.assertEquals(response.status_code, 200)
+
+        response = self.client.get('/blog/create_post/')
+        self.assertEquals(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        self.assertIn('Create Post - Blog', soup.title.text)
+        main_area = soup.find('div', id='main-area')
+        self.assertIn('Create New Post', main_area.text)
+
+        self.assertEquals(Post.objects.count(), 4)
+        last_post = Post.objects.last()
+        self.assertEquals(last_post.title, 'Post Form 만들기')
+        self.assertEquals(last_post.author.username, 'obama')
 
 
     def test_tag_page(self):
@@ -104,7 +140,7 @@ class TestView(TestCase):
 
 
     def test_post_list(self):
-        self.assertEquals(Post.objects.count(), 3)
+        self.assertEquals(Post.objects.count(), 4)
         # 1.1 포스트 목록 페이지를 가져온다.
         response = self.client.get('/blog')
 
