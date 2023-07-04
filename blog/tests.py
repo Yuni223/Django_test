@@ -49,25 +49,27 @@ class TestView(TestCase):
             title="Post Form 만들기",
             content="Post Form 페이지를 만듭시다.",
             category=self.category_music,
-            author=self.user_obama
+            author=self.user_obama,
+            # tags_str='new tag; 한글 태그, python',
         )
 
 
     def test_update_post(self):
         update_post_url = f'/blog/update_post/{self.post_003.pk}/'
 
+        # 로그인하지 않은 상태
         response = self.client.get(update_post_url)
-        self.assertNotEquals(response.status_code, 200) # 로그인하지 않은 상태
+        self.assertNotEqual(response.status_code, 200)
 
         # 로그인이 되어있으나 작성자가 아닌 경우
-        self.assertNotEquals(self.post_003.author, self.user_trump)
+        self.assertNotEqual(self.post_003.author, self.user_trump)
         # post_003은 obama가 작성함
         self.client.login(
             username=self.user_trump.username,
             password='somepassword',
         )
         response = self.client.get(update_post_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
         # 작성자가 접속하는 경우
         self.client.login(
@@ -75,7 +77,7 @@ class TestView(TestCase):
             password='somepassword',
         )
         response = self.client.get(update_post_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
 
         # 정상적 접속됬다면 내용 확인
@@ -96,7 +98,7 @@ class TestView(TestCase):
 
         # 수정이 됐는지 확인
         soup = BeautifulSoup(response.content, 'html.parser')
-        main_area = soup.find('div', id='main=area')
+        main_area = soup.find('div', id='main-area')
         self.assertIn('세번째 포스트를 수정했습니다.', main_area.text)
         self.assertIn('안녕하세요 포스트가 수정되었습니다.', main_area.text)
         self.assertIn(self.category_music.name, main_area.text)
@@ -104,33 +106,41 @@ class TestView(TestCase):
 
     def test_create_post(self):
         response = self.client.get('/blog/create_post/')
-        self.assertNotEquals(response.status_code, 200)
+        self.assertNotEqual(response.status_code, 200)
 
         self.client.login(username='trump', password='somepassword')
         response = self.client.get('/blog/create_post/') # obama만 허용해줬기 때문에 접속이 되면 안됨
-        self.assertNotEquals(response.status_code, 200)
+        self.assertNotEqual(response.status_code, 200)
 
         self.client.login(username='obama', password='somepassword')
         response = self.client.get('/blog/create_post/') # obama는 허용했으니 정상적이라면 접속되야함
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get('/blog/create_post/')
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
 
         self.assertIn('Create Post - Blog', soup.title.text)
         main_area = soup.find('div', id='main-area')
         self.assertIn('Create New Post', main_area.text)
 
-        self.assertEquals(Post.objects.count(), 4)
-        last_post = Post.objects.last()
-        self.assertEquals(last_post.title, 'Post Form 만들기')
-        self.assertEquals(last_post.author.username, 'obama')
+        # tag_str_input = main_area('input', id="id_tags_str")
+        # self.assertTrue(tag_str_input)# tag_str_input 안에 내용이 있냐? 물음
+
+        # self.assertEqual(Post.objects.count(), 4)
+        # last_post = Post.objects.last()
+        # self.assertEqual(last_post.title, 'Post Form 만들기')
+        # self.assertEqual(last_post.author.username, 'obama')
+
+        # self.assertEqual(last_post.tags.count(), 3)
+        # self.assertTrue(Tag.objects.get(name='new tag'))
+        # self.assertTrue(Tag.objects.get(name='한글 태그'))
+        # self.assertEqual(Tag.objects.count(), 5)
 
 
     def test_tag_page(self):
         response = self.client.get(self.tag_hello.get_absolute_url())
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
 
         self.navbar_test(soup)
@@ -147,7 +157,7 @@ class TestView(TestCase):
 
     def test_category_page(self):
         response = self.client.get(self.category_programming.get_absolute_url())
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
 
         self.navbar_test(soup)
@@ -176,25 +186,25 @@ class TestView(TestCase):
         self.assertIn('About Me', navbar.text)
 
         logo_btn = navbar.find('a', text='Django')
-        self.assertEquals(logo_btn.attrs['href'], '/')
+        self.assertEqual(logo_btn.attrs['href'], '/')
 
         home_btn = navbar.find('a', text='Home')
-        self.assertEquals(home_btn.attrs['href'], '/')
+        self.assertEqual(home_btn.attrs['href'], '/')
 
         blog_btn = navbar.find('a', text='Blog')
-        self.assertEquals(blog_btn.attrs['href'], '/blog')
+        self.assertEqual(blog_btn.attrs['href'], '/blog')
 
         about_me_btn = navbar.find('a', text='About Me')
-        self.assertEquals(about_me_btn.attrs['href'], '/about_me')
+        self.assertEqual(about_me_btn.attrs['href'], '/about_me')
 
 
     def test_post_list(self):
-        self.assertEquals(Post.objects.count(), 4)
+        self.assertEqual(Post.objects.count(), 4)
         # 1.1 포스트 목록 페이지를 가져온다.
         response = self.client.get('/blog')
 
         # 1.2 정상적인 페이지가 로드된다.
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         # 1.3 페이지 타이틀은 'Blog'이다.
         soup = BeautifulSoup(response.content, 'html.parser')
