@@ -45,7 +45,7 @@ def category_page(request, slug):
 
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
-    fields = ['title', 'hook_text', 'content', 'head_image', 'file_upload', 'category', 'tags']
+    fields = ['title', 'hook_text', 'content', 'head_image', 'file_upload', 'category']
 
     template_name = 'blog/post_update_form.html'
 
