@@ -48,10 +48,10 @@
         />
     </figure>
     {% endif %}
-    <!-- Post content-->
-
     <hr />
-    <p>{{ post.content }}</p>
+    
+    <!-- Post content-->
+    <p>{{ post.get_content_markdown | safe }}</p>
     
     {% if post.tags.exists %}
         <i class="fas fa-tags"></i>
