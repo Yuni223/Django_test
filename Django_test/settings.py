@@ -44,6 +44,13 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'markdownx',
 
+    # djang-allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
     'blog',
     'single_pages',
 ]
@@ -108,6 +115,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# djang-allauth
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+#ACCOUNT_EMAIL_REQUIRED = True
+#ACCOUNT_EMAIL_VERIFIED = 'none'
+LOGIN_REDIRECT_URL = '/blog/'
+LOGOUT_REDIRECT_URL = '/blog/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

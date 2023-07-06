@@ -9,7 +9,7 @@ from django.utils.text import slugify
 
 def tag_page(request, slug):
     tag = Tag.objects.get(slug=slug)
-    post_list = tag.post_set.all()
+    post_list = tag.post_set.all().order_by('-created_at')  # 내림차순 정렬
 
     return render(    # render : html  형식으로 바꾸어줌
         request,
@@ -26,10 +26,10 @@ def tag_page(request, slug):
 def category_page(request, slug):
     if slug == 'no_category':
         category = '미분류'
-        post_list = Post.objects.filter(category=None)
+        post_list = Post.objects.filter(category=None).order_by('-created_at')  # 내림차순 정렬
     else:
         category = Category.objects.get(slug=slug)
-        post_list = Post.objects.filter(category=category)
+        post_list = Post.objects.filter(category=category).order_by('-created_at')  # 내림차순 정렬
 
     return render(
         request,
@@ -128,19 +128,6 @@ class PostList(ListView):
         context['categories'] = Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
         return context
-    # template_name = 'blog/index.html'
-    # index.html 을 지정못해서 template_name 을 통해서 강제로 주소 지정
-    # return render와 같은 의미
-
-# def index(request):
-#     posts = Post.objects.all().order_by('-pk')    # 최신 글을 맨 위로
-#     return render(
-#         request,
-#         'blog/index.html',
-#         {
-#             'posts': posts,
-#         }
-#     )
 
 class PostDetail(DetailView):
     model = Post
@@ -150,13 +137,3 @@ class PostDetail(DetailView):
         context['categories'] = Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
         return context
-# def single_post_page(request, pk):
-#     post = Post.objects.get(pk=pk)
-#     return render(
-#         request,
-#         'blog/single_post_page.html',
-#         {
-#             'post': post,
-#         }
-#     )
-#

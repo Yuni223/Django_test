@@ -1,3 +1,5 @@
+{% load socialaccount %}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="/">Django</a>
@@ -23,38 +25,26 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about_me">About Me</a>
                 </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdown"
-                        role="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
-                        Disabled
-                    </a>
-                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
                 <!-- 왼쪽(left) 여백(margin)을 최대한 확보 -->
-                <li class="nav-item">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"
+                        id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/accounts/logout/">Log out</a>
+                    </div>
+                {% else %}
                     <!-- trigger modal -->
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
                         log in
                     </a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -73,32 +63,30 @@
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="loginModalLabel">
                     <i class="fa-solid fa-right-to-bracket" style="color: #a9c8fe;"></i>
-                    &nbsp Log in
+                    &nbsp; Log in
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-outline-primary btn-block btn-sm">
+                        <a role="button" class="btn btn-outline-primary btn-block btn-sm" href="{% provider_login_url 'google' %}">
                             <i class="fa-brands fa-square-google-plus" style="color: #ee2f2f;"></i>
-                            Log in with Google
-                        </button>
-                        <button type="button" class="btn btn-outline-primary btn-block btn-sm">
+                            &nbsp Log in with Google
+                        </a>
+                        
+                        <a role="button" class="btn btn-outline-primary btn-block btn-sm" href="/accounts/login">
                             <i class="fa-regular fa-envelope" style="color: #48026e;"></i>
-                            Log in with E-mail
-                        </button>
+                            &nbsp Log in with Username
+                        </a>
                     </div>
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-outline-primary btn-block btn-sm">
+                        <a role="button" class="btn btn-outline-primary btn-block btn-sm" href="/accounts/signup">
                             <i class="fa-regular fa-envelope" style="color: #48026e;"></i>
-                            Sign Up with E-mail
-                        </button>
+                            &nbsp Sign Up with Username
+                        </a>
                     </div>
                 </div>
             </div>
