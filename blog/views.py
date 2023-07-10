@@ -165,12 +165,14 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class PostList(ListView):
     model = Post
     ordering = '-pk'    # 최신 글을 맨 위로
+    paginate_by = 5
 
     def get_context_data(self, **keargs):
         context = super(PostList, self).get_context_data()
         context['categories'] = Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
         return context
+
 
 class PostDetail(DetailView):
     model = Post
