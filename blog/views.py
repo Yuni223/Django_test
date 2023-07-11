@@ -5,9 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
 from .forms import CommentForm
+from django.db.models import Q
 
 # Create your views here.
-
 
 class CommentUpdate(LoginRequiredMixin, UpdateView):
     model = Comment
@@ -182,4 +182,25 @@ class PostDetail(DetailView):
         context['categories'] = Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
         context['comment_form'] = CommentForm
+        return context
+
+
+class PostSearch(PostList):
+    paginate_by = None
+
+    def get_queryset(self):
+        q = self.kwargs['q']
+        post_list = Post.objects.filter(#Q의 타이틀과 tag를 검색한다.
+            Q(title__contains=q) | Q(tags__name__contains=q)
+        ).distinct().order_by('-created_at')
+        # 검색된 Q의 중복을 제거한다, 내림차순 정렬 
+        
+        return post_list
+
+    def get_context_data(self, **kwargs):
+        context = super(PostSearch, self).get_context_data()
+        q = self.kwargs['q']
+        context['search_info'] = f'Search: {q} ({self.get_queryset().count()})'
+        # get_queryset() 은 objects_all()과 비슷. 몇개를 찾았는지 알려줌
+
         return context

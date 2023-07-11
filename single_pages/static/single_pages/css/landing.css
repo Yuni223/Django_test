@@ -1,0 +1,16 @@
+body {
+    background: url('/static/single_pages/images/landing.jpg') 
+        no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size:cover;
+}
+
+section {
+    margin-bottom: 150px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.6);
+}
