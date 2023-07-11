@@ -1,20 +1,212 @@
 <!doctype html>
-<html lang="ko">
+{% load static %}
+<html lang='ko'>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>자기소개 페이지</title>
+    <link rel="stylesheet"          
+          href="{% static 'blog/bootstrap/bootstrap.min.css' %}"
+          media="screen"/>
+    <link rel="stylesheet" href="{% static 'single_pages/css/about_me.css' %}" media="screen">
+    <script src="https://kit.fontawesome.com/d440af0ce0.js" crossorigin="anonymous"></script>
+    <title>About Me</title>
 </head>
 <body>
-    <nav>
-        <a href="/blog">Blog</a>
-        <a href="/about_me">About me</a>
-    </nav>
+    {% include 'blog/navbar.html' %}
+    
+    <section>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="mt-5">안녕하세요. 양성윤입니다.</h1>
+                    <br>
+                    <p class="lead">
+                        컴퓨터를 좋아합니다. <br>
+                        퇴근 후에는 운동을 합니다.
+                    </p>
+                    <ul>
+                        <li>Work Experience</li>
+                        <ul>
+                            <li>파이썬 장고(Python Django Enfineering)</li>
+                            <li>OO 회사 - (~)</li>
+                        </ul>
+                        <li>Education</li>
+                        <ul>
+                            <li>인제대학교 컴퓨터공학과(2017.03 ~ 2023.02)</li>
+                            <li>센텀직업전문학교 - Python, 빅데이터분석(2023.02.07 ~ 07.12)</li>
+                            
+                        </ul>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <img class="img-fluid" src="{% static 'single_pages/images/about_me.jpg' %}">
+                </div>
+        
+            </div>
+        </div>
+    </section>
+    
+    <section class="bg-light margin-for-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>PORTFOLIO</h1>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card" data-toggle="modal" data-target="#pybigdata">
+                        <img class="card-img-top" src="{% static 'single_pages/images/bigdata.jpg' %}">
+                        <div class="card-body">
+                            <h5 class="card-title">파이썬으로 빅데이터를 처리하는 시스템[2023]</h5>
+                            <p>
+                                Big data primarily refers to data sets that are too large or complex to be dealt with by traditional data-processing application software. Data with many entries (rows) offer greater statistical power, while data with higher complexity
+                                (more attributes or columns) may lead to a higher false discovery rate.
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card" data-toggle="modal" data-target="#web_django">
+                        <img class="card-img-top" src="{% static 'single_pages/images/web5.png' %}">
+                        <div class="card-body">
+                            <h5 class="card-title">파이썬 사용자를 위한 Django 웹 개발[2023]</h5>
+                            <p>
+                                The HyperText Markup Language or HTML is the standard markup language for documents designed to be displayed in a web browser. 
+                                It is often assisted by technologies such as Cascading Style Sheets (CSS) and scripting languages such as JavaScript.
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card" data-toggle="modal" data-target="#pycloud">
+                        <img class="card-img-top" src="{% static 'single_pages/images/cloud.jpg' %}">
+                        <div class="card-body">
+                            <h5 class="card-title">파이썬 CLOUD 처리 시스템[2023]</h5>
+                            <p>
+                                Cloud computing is the on-demand availability of computer system resources, 
+                                especially data storage (cloud storage) and computing power, without direct active management by the user.
+                                Large clouds often have functions distributed over multiple locations, each of which is a data center. 
+                                Cloud computing relies on sharing of resources to achieve coherence and typically uses a pay-as-you-go model, 
+                                which can help in reducing capital expenses but may also lead to unexpected operating expenses for users.
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    
+    <div class="modal fade" id="web_django" tabindex="-1" role="dialog" aria-labelledby="web_djangoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="web_djangoLabel">파이썬으로 빅데이터를 처리하는 시스템[2023]</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <img class="card-img-top" src="{% static 'single_pages/images/bigdata.jpg' %}">
+                        </div>
+                        <div class="col-lg-5">
+                            <p>
+                                Big data primarily refers to data sets that are too large or complex to be dealt with by traditional data-processing application software. Data with many entries (rows) offer greater statistical power, while data with higher complexity
+                                (more attributes or columns) may lead to a higher false discovery rate.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <h1>안녕하세요</h1>
-    <h2>이력</h2>
-    <h2>Portfolio</h2>
+    <div class="modal fade" id="pybigdata" tabindex="-1" role="dialog" aria-labelledby="pybigdataLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="pybigdataLabel">파이썬 사용자를 위한 Django 웹 개발[2023]</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <img class="card-img-top" src="{% static 'single_pages/images/web5.png' %}">
+                        </div>
+                        <div class="col-lg-5">
+                            <p>
+                                The HyperText Markup Language or HTML is the standard markup language for documents designed to be displayed in a web browser. 
+                                It is often assisted by technologies such as Cascading Style Sheets (CSS) and scripting languages such as JavaScript.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="pycloud" tabindex="-1" role="dialog" aria-labelledby="pycloudLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="pycloudLabel">파이썬 CLOUD 처리 시스템[2023]</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <img class="card-img-top" src="{% static 'single_pages/images/cloud.jpg' %}">
+                        </div>
+                        <div class="col-lg-5">
+                            <p>
+                                Cloud computing is the on-demand availability of computer system resources, 
+                                especially data storage (cloud storage) and computing power, without direct active management by the user.
+                                Large clouds often have functions distributed over multiple locations, each of which is a data center. 
+                                Cloud computing relies on sharing of resources to achieve coherence and typically uses a pay-as-you-go model, 
+                                which can help in reducing capital expenses but may also lead to unexpected operating expenses for users.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom">
+    {% include 'blog/footer.html' %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+        integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+        crossorigin="anonymous"></script>
 </body>
 </html>
