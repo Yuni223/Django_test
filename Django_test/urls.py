@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 # conf : django 프로젝트의 기본 폴더, 우리는 Django_test임
 
 urlpatterns = [
+    path('board/', include('board.urls')),
     path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
     path('markdownx/', include('markdownx.urls')),
